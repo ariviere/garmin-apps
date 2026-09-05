@@ -43,12 +43,14 @@
 
   header.top {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 22px 0;
+    padding: 18px 0; border-bottom: 1px solid var(--line); margin-bottom: 8px;
   }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .02em; color: var(--text); }
-  .brand small { color: var(--muted); font-weight: 500; }
-  nav a { color: var(--muted); margin-left: 22px; font-size: .95rem; }
-  nav a:hover { color: var(--text); text-decoration: none; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand span {
+    font-size: 1rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+    background: linear-gradient(90deg, #8fe3ff, #3b8ff0); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .brand img { border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.06); }
 
   .hero { padding: 40px 0 28px; max-width: 46rem; }
   .hero h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.05; margin: 0 0 14px; letter-spacing: -.02em; }
@@ -65,10 +67,9 @@
   .app-main { flex: 1; min-width: 0; }
   .app-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
   .app-title h3 { margin: 0; font-size: 1.15rem; }
-  .app-title .kind { color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; }
+  .app-title .kind { font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); background: rgba(126,200,227,.12); border: 1px solid rgba(126,200,227,.3); border-radius: 999px; padding: 3px 9px; }
   .app-main p { margin: 2px 0 0; color: var(--muted); font-size: .95rem; }
   .app .badge { flex: none; font-size: .75rem; padding: 4px 10px; }
-  .app .chev { color: var(--muted); font-size: .9rem; font-weight: 600; flex: none; }
   .app.static { cursor: default; }
   .app.static:hover { transform: none; border-color: var(--line); }
 
@@ -98,26 +99,17 @@
   section h2 { font-size: 1.9rem; margin: 0 0 6px; letter-spacing: -.015em; }
   section .sub { color: var(--muted); margin: 0 0 30px; max-width: 46rem; }
 
-  footer { border-top: 1px solid var(--line); padding: 36px 0 48px; color: var(--muted); font-size: .9rem; }
-  footer .cols { display: flex; flex-wrap: wrap; gap: 28px 48px; justify-content: space-between; }
-  footer .cols > div:first-child { flex: 1 1 320px; max-width: 420px; }
-  footer ul { list-style: none; padding: 0; margin: 8px 0 0; }
-  footer li { margin: 4px 0; }
-  footer strong { color: var(--text); }
+  footer { border-top: 1px solid var(--line); padding: 36px 0 48px; color: var(--muted); font-size: .95rem; }
+  footer p { margin: 0 0 10px; max-width: 40rem; }
+  footer .hello { color: var(--text); font-size: 1.05rem; }
 
   @media (max-width: 860px) {
     .app { flex-wrap: wrap; gap: 12px 14px; }
     .app .icon { width: 44px; height: 44px; }
-    .app .chev { display: none; }
     .app-main { flex-basis: calc(100% - 58px); }
-    header.top { flex-wrap: wrap; gap: 10px; }
-    .brand small { display: none; }
-    nav { display: flex; flex-wrap: wrap; gap: 6px 14px; }
-    nav a { margin-left: 0; }
     .hero { padding-top: 16px; }
     .app { flex-wrap: wrap; gap: 12px 14px; }
     .app .icon { width: 44px; height: 44px; }
-    .app .chev { display: none; }
     .app-main { flex-basis: calc(100% - 58px); }
   }
 </style>
@@ -125,15 +117,12 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <a class="brand" href="#"><img src="assets/logo.svg" alt="" width="34" height="34">Riviere <small>· Connect IQ</small></a>
-    <nav>
-      <a href="#contact">Contact</a>
-    </nav>
+    <div class="brand"><img src="assets/logo.svg" alt="" width="40" height="40"><span>Riviere</span></div>
   </header>
 
   <div class="hero">
     <h1>Indie apps for your Garmin.</h1>
-    <p class="lead">Built for Garmin watches and Edge bike computers, sold once on the Connect IQ Store. No subscription, no account, no data collected.</p>
+    <p class="lead">Built for Garmin watches and Edge bike computers, available on the Connect IQ Store.<br>No subscription, no account, no data collected.</p>
   </div>
 
   <div class="apps" id="apps">
@@ -144,7 +133,6 @@
         <p>Live wind speed, gusts and direction while you ride. One-time purchase, no subscription.</p>
       </div>
       <span class="badge live">Available now</span>
-      <span class="chev" aria-hidden="true">Store ›</span>
     </a>
     <a class="app" href="https://apps.garmin.com/apps/61a855f4-612b-4b2b-b4f3-da0e5bf5f4ca">
       <img class="icon" src="assets/icon-polar.png" alt="" width="56" height="56">
@@ -153,7 +141,6 @@
         <p>An Antarctica dial that turns once a day, with four data slots.</p>
       </div>
       <span class="badge live">Available now</span>
-      <span class="chev" aria-hidden="true">Store ›</span>
     </a>
     <div class="app static">
       <img class="icon" src="assets/icon-halo.png" alt="" width="56" height="56">
@@ -182,18 +169,8 @@
   </div>
 
   <footer id="contact">
-    <div class="cols">
-      <div>
-        <strong>Riviere</strong><br>
-        Connect IQ apps by Antoine. Garmin, Connect IQ, Forerunner, fēnix, epix, Venu, vívoactive, Instinct, MARQ, Descent, Approach, D2 and Edge are trademarks of Garmin Ltd.
-      </div>
-      <div>
-        <strong>Contact</strong>
-        <ul>
-          <li>Questions, bugs, ideas: <a class="mail" data-u="a" data-d="riviere" data-t="tf" href="#contact"><span>a [at] riviere [dot] tf</span></a></li>
-        </ul>
-      </div>
-    </div>
+    <p class="hello">Found a bug, or would like a new option? Drop me a line. I read every email and answer them all.</p>
+    <p>Write to <a class="mail" data-u="a" data-d="riviere" data-t="tf" href="#contact"><span>a [at] riviere [dot] tf</span></a></p>
   </footer>
   <script>
     // Assemble the address at runtime so plain scrapers don't pick it up.
