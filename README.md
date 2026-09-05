@@ -1,4 +1,4 @@
-# RiviereApps — Connect IQ apps
+# Riviere — Connect IQ apps
 
 Public site for my Garmin Connect IQ apps, served with GitHub Pages: https://ariviere.github.io/garmin-apps/
 
