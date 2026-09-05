@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RiviereApps — Connect IQ apps for Garmin</title>
+<meta name="description" content="Zephyr (live wind for cyclists), the Polar, Pixel Halo and Atlas France watch faces, and FuelClock, a nutrition reminder. Connect IQ apps for Garmin devices by RiviereApps.">
+<meta property="og:title" content="RiviereApps — Connect IQ apps for Garmin">
+<meta property="og:description" content="A wind data field, three analog watch faces and a nutrition reminder for Garmin watches and Edge computers.">
+<meta property="og:image" content="https://ariviere.github.io/garmin-apps/assets/zephyr-hero.png">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="alternate icon" href="assets/logo.png">
+<style>
+  :root {
+    --bg: #0b0d12;
+    --bg-2: #11141b;
+    --card: #161a23;
+    --line: #262b37;
+    --text: #eef1f6;
+    --muted: #9aa3b5;
+    --accent: #7ec8e3;
+    --accent-2: #4ad3e8;
+    --terracotta: #c9633a;
+    --ok: #4cd08a;
+    --radius: 18px;
+    font-size: 17px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  img { max-width: 100%; height: auto; display: block; }
+  .wrap, .product, .face, .media, .dial, .small, .mock { min-width: 0; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  header.top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 0;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .02em; color: var(--text); }
+  .brand small { color: var(--muted); font-weight: 500; }
+  nav a { color: var(--muted); margin-left: 22px; font-size: .95rem; }
+  nav a:hover { color: var(--text); text-decoration: none; }
+
+  .hero { padding: 40px 0 28px; max-width: 46rem; }
+  .hero h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.05; margin: 0 0 14px; letter-spacing: -.02em; }
+  .hero p.lead { font-size: 1.15rem; color: var(--muted); margin: 0; }
+
+  .apps { display: flex; flex-direction: column; gap: 10px; padding-bottom: 48px; }
+  .app {
+    display: flex; align-items: center; gap: 18px; padding: 14px 18px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px; color: var(--text);
+    transition: transform .12s ease, border-color .12s ease;
+  }
+  .app:hover { transform: translateX(3px); border-color: #3a4354; text-decoration: none; }
+  .app .icon { width: 56px; height: 56px; border-radius: 14px; flex: none; background: #000; }
+  .app-main { flex: 1; min-width: 0; }
+  .app-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .app-title h3 { margin: 0; font-size: 1.15rem; }
+  .app-title .kind { color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; }
+  .app-main p { margin: 2px 0 0; color: var(--muted); font-size: .95rem; }
+  .app .badge { flex: none; font-size: .75rem; padding: 4px 10px; }
+  .app .chev { color: var(--muted); font-size: .9rem; font-weight: 600; flex: none; }
+  .app.static { cursor: default; }
+  .app.static:hover { transform: none; border-color: var(--line); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 20px; border-radius: 999px; font-weight: 600; font-size: 1rem;
+    border: 1px solid var(--line); color: var(--text); background: var(--card);
+    transition: transform .12s ease, background .12s ease;
+  }
+  .btn:hover { transform: translateY(-1px); text-decoration: none; background: #1d222d; }
+  .btn.primary { background: var(--accent-2); color: #06212a; border-color: transparent; }
+  .btn.primary:hover { background: #63dcef; }
+  .btn.small { padding: 8px 14px; font-size: .9rem; }
+  .btn.disabled { opacity: .55; cursor: default; pointer-events: none; }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; }
+  .badge {
+    font-size: .82rem; font-weight: 600; padding: 5px 11px; border-radius: 999px;
+    border: 1px solid var(--line); color: var(--muted); background: var(--bg-2);
+  }
+  .badge.live { color: #06212a; background: var(--ok); border-color: transparent; }
+  .badge.soon { color: #1a1305; background: #f2c14e; border-color: transparent; }
+  .badge.dev { color: var(--text); background: #3b4254; border-color: transparent; }
+  .badge.otp { color: #06212a; background: var(--accent); border-color: transparent; }
+
+  section { padding: 56px 0; border-top: 1px solid var(--line); }
+  section h2 { font-size: 1.9rem; margin: 0 0 6px; letter-spacing: -.015em; }
+  section .sub { color: var(--muted); margin: 0 0 30px; max-width: 46rem; }
+
+  footer { border-top: 1px solid var(--line); padding: 36px 0 48px; color: var(--muted); font-size: .9rem; }
+  footer .cols { display: flex; flex-wrap: wrap; gap: 28px 48px; justify-content: space-between; }
+  footer .cols > div:first-child { flex: 1 1 320px; max-width: 420px; }
+  footer ul { list-style: none; padding: 0; margin: 8px 0 0; }
+  footer li { margin: 4px 0; }
+  footer strong { color: var(--text); }
+
+  @media (max-width: 860px) {
+    .app { flex-wrap: wrap; gap: 12px 14px; }
+    .app .icon { width: 44px; height: 44px; }
+    .app .chev { display: none; }
+    .app-main { flex-basis: calc(100% - 58px); }
+    header.top { flex-wrap: wrap; gap: 10px; }
+    .brand small { display: none; }
+    nav { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+    nav a { margin-left: 0; }
+    .hero { padding-top: 16px; }
+    .app { flex-wrap: wrap; gap: 12px 14px; }
+    .app .icon { width: 44px; height: 44px; }
+    .app .chev { display: none; }
+    .app-main { flex-basis: calc(100% - 58px); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#"><img src="assets/logo.svg" alt="" width="34" height="34">RiviereApps <small>· Connect IQ</small></a>
+    <nav>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h1>Indie apps for your Garmin.</h1>
+    <p class="lead">Built for Garmin watches and Edge bike computers, sold once on the Connect IQ Store. No subscription, no account, no data collected.</p>
+  </div>
+
+  <div class="apps" id="apps">
+    <a class="app" href="https://apps.garmin.com/apps/624d91a4-6b38-4daa-a88c-7154830b013c">
+      <img class="icon" src="assets/icon-zephyr.png" alt="" width="56" height="56">
+      <div class="app-main">
+        <div class="app-title"><h3>Zephyr</h3><span class="kind">Data field</span></div>
+        <p>Live wind speed, gusts and direction while you ride. One-time purchase, no subscription.</p>
+      </div>
+      <span class="badge live">Available now</span>
+      <span class="chev" aria-hidden="true">Store ›</span>
+    </a>
+    <a class="app" href="https://apps.garmin.com/apps/61a855f4-612b-4b2b-b4f3-da0e5bf5f4ca">
+      <img class="icon" src="assets/icon-polar.png" alt="" width="56" height="56">
+      <div class="app-main">
+        <div class="app-title"><h3>Polar</h3><span class="kind">Watch face</span></div>
+        <p>An Antarctica dial that turns once a day, with four data slots.</p>
+      </div>
+      <span class="badge live">Available now</span>
+      <span class="chev" aria-hidden="true">Store ›</span>
+    </a>
+    <div class="app static">
+      <img class="icon" src="assets/icon-halo.png" alt="" width="56" height="56">
+      <div class="app-main">
+        <div class="app-title"><h3>Pixel Halo</h3><span class="kind">Watch face</span></div>
+        <p>A minimal analog face with four data rings that fill toward your goals.</p>
+      </div>
+      <span class="badge soon">Coming soon</span>
+      </div>
+    <div class="app static">
+      <img class="icon" src="assets/icon-france.png" alt="" width="56" height="56">
+      <div class="app-main">
+        <div class="app-title"><h3>Atlas France</h3><span class="kind">Watch face</span></div>
+        <p>France or your favorite region on your wrist: Bretagne, Corse, La Réunion, etc.</p>
+      </div>
+      <span class="badge soon">Coming soon</span>
+      </div>
+    <div class="app static">
+      <img class="icon" src="assets/icon-fuelclock.png" alt="" width="56" height="56">
+      <div class="app-main">
+        <div class="app-title"><h3>FuelClock</h3><span class="kind">Data field</span></div>
+        <p>Never forget to eat or drink again. Fully customizable to your needs.</p>
+      </div>
+      <span class="badge soon">Coming soon</span>
+      </div>
+  </div>
+
+  <footer id="contact">
+    <div class="cols">
+      <div>
+        <strong>RiviereApps</strong><br>
+        Connect IQ apps by Antoine. Garmin, Connect IQ, Forerunner, fēnix, epix, Venu, vívoactive, Instinct, MARQ, Descent, Approach, D2 and Edge are trademarks of Garmin Ltd.
+      </div>
+      <div>
+        <strong>Contact</strong>
+        <ul>
+          <li>Questions, bugs, ideas: <a class="mail" data-u="a" data-d="riviere" data-t="tf" href="#contact"><span>a [at] riviere [dot] tf</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+  <script>
+    // Assemble the address at runtime so plain scrapers don't pick it up.
+    document.querySelectorAll('a.mail').forEach(function (a) {
+      var addr = a.dataset.u + '\u0040' + a.dataset.d + '\u002e' + a.dataset.t;
+      a.href = 'mailto:' + addr;
+      a.textContent = addr;
+    });
+  </script>
+</div>
+</body>
+</html>
